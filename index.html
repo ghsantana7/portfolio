@@ -1,0 +1,3136 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" data-theme="v1">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Portfólio de Gabriel Henrique Santana de Jesus — Desenvolvedor em formação, estudante de Desenvolvimento de Sistemas.">
+<title>Gabriel Henrique · Desenvolvedor</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Three.js importmap -->
+<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<style>
+/* ================================================================
+   DESIGN SYSTEM — AXISFORM TOKENS
+   ================================================================ */
+:root {
+  --bg: #030614;
+  --panel: #080d24;
+  --panel-2: #0e163b;
+  --cream: #EEF2D1;
+  --muted: rgba(238, 242, 209, 0.65);
+  --soft: rgba(30, 108, 244, 0.12);
+  --line: rgba(30, 108, 244, 0.18);
+  --orange: #1E6CF4;
+  --orange-soft: rgba(30, 108, 244, 0.25);
+  --navy: #06089D;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --bg-gradient: radial-gradient(circle at 75% 15%, rgba(30, 108, 244, 0.22), transparent 42rem),
+                 radial-gradient(circle at 18% 48%, rgba(6, 8, 157, 0.32), transparent 36rem),
+                 #030614;
+  --nav-bg: rgba(3, 6, 20, 0.82);
+  --font-display: 'Space Grotesk', Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+
+
+/* ================================================================
+   RESET & BASE
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  background: var(--bg);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  background: var(--bg-gradient);
+  color: var(--cream);
+  transition: background 0.4s ease, color 0.4s ease;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; }
+::selection { background: var(--cream); color: var(--bg); }
+
+/* ================================================================
+   OVERLAYS — NOISE + GRID
+   ================================================================ */
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .18;
+  background-image: radial-gradient(rgba(255,255,255,.18) 1px, transparent 1px);
+  background-size: 4px 4px;
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+}
+
+.grid-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: .13;
+  background-image:
+    linear-gradient(rgba(243,240,232,.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243,240,232,.09) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 84%, transparent);
+}
+
+/* ================================================================
+   NAV
+   ================================================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 40px;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--nav-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  position: relative;
+  transition: color .3s var(--ease);
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -6px;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: right;
+  background: currentColor;
+  transition: transform .45s var(--ease);
+}
+
+.nav-links a:hover { color: var(--cream); }
+.nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.nav-mobile-btn {
+  display: none;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  color: var(--cream);
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  backdrop-filter: blur(18px);
+}
+
+@media (max-width: 768px) {
+  .nav {
+    padding: 14px 20px;
+    justify-content: flex-end;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    background: rgba(6, 7, 6, 0.96);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    align-items: center;
+  }
+  .nav-links.open { display: flex; }
+  .nav-mobile-btn { display: flex; }
+}
+
+/* ================================================================
+   SECTION LABEL
+   ================================================================ */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(243,240,232,.54);
+}
+
+.section-label::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--orange);
+  box-shadow: 0 0 20px rgba(30, 108, 244, .5);
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   GLASS + CARDS
+   ================================================================ */
+.glass {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.035);
+  backdrop-filter: blur(18px);
+}
+
+.project-card {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 24px;
+  padding: 32px;
+  transition: transform .55s var(--ease), border-color .55s var(--ease), background .55s var(--ease);
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  cursor: default;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(30, 108, 244, 0.45);
+  box-shadow: 0 12px 32px rgba(30, 108, 244, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(243,240,232,.12);
+  padding: 14px 28px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cream);
+  transition: transform .45s var(--ease), background .45s var(--ease), border-color .45s var(--ease);
+  cursor: pointer;
+  background: none;
+  font-family: inherit;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(30, 108, 244, 0.6);
+  background: rgba(30, 108, 244, 0.16);
+  box-shadow: 0 0 20px rgba(30, 108, 244, 0.35);
+}
+
+.btn-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--bg);
+  font-size: 14px;
+}
+
+/* ================================================================
+   HERO — PARTICLES
+   ================================================================ */
+#hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 220px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(3, 6, 20, 0.55) 55%, #030614 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  padding: 0 24px;
+  pointer-events: none;
+  animation: heroFadeIn 1.4s var(--ease) both;
+  animation-delay: .3s;
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-content .section-label { pointer-events: auto; }
+
+.hero-name {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 9vw, 8rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.0;
+  padding: 0 0.1em;
+  margin-right: -0.1em;
+  background: linear-gradient(160deg, #fff 0%, var(--cream) 40%, rgba(238,242,209,.6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-break: break-word;
+  overflow: visible;
+}
+
+/* ── Hero role badge ── */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(30,108,244,0.35);
+  background: rgba(30,108,244,0.08);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(238,242,209,0.7);
+  backdrop-filter: blur(8px);
+  animation: heroFadeIn 1.4s var(--ease) both;
+  animation-delay: .15s;
+}
+
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 10px rgba(30,108,244,.8);
+  animation: pulse-dot 2.4s ease infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity:1; transform:scale(1); }
+  50% { opacity:.5; transform:scale(1.4); }
+}
+
+/* ── Scroll indicator ── */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  animation: fadeInHint 2s var(--ease) 1.6s both;
+  opacity: 0;
+}
+
+@keyframes fadeInHint {
+  from { opacity:0; transform:translateX(-50%) translateY(8px); }
+  to { opacity:1; transform:translateX(-50%) translateY(0); }
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, rgba(30,108,244,0.8), transparent);
+  animation: scrollLine 2s ease-in-out 1.6s infinite;
+}
+
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+.hero-scroll-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(238,242,209,0.35);
+}
+
+.hero-sub {
+  max-width: 500px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(238,242,209,0.55);
+  letter-spacing: -0.01em;
+}
+
+.hero-cta {
+  margin-top: 12px;
+  pointer-events: auto;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ================================================================
+   VIDEO SECTION — SMOOTH SCROLL SCRUBBING
+   ================================================================ */
+.video-section {
+  position: relative;
+  height: 350vh;
+}
+
+.video-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #030614 0%, rgba(3, 6, 20, 0.72) 14%, transparent 36%, transparent 82%, rgba(3, 6, 20, 0.75) 95%, #030614 100%),
+              radial-gradient(circle at 50% 50%, rgba(30, 108, 244, 0.22), transparent 36rem),
+              radial-gradient(circle at 50% 65%, rgba(6, 8, 157, 0.35), transparent 45rem),
+              #030614;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#scroll-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 1200px;
+  max-height: 90vh;
+  display: block;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+  mix-blend-mode: screen;
+  filter: contrast(1.1) brightness(0.96);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.video-overlay-name {
+  font-size: clamp(3.5rem, 11vw, 11rem);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  color: rgba(238, 242, 209, 0.85);
+  mix-blend-mode: overlay;
+  transition: opacity .2s;
+  user-select: none;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* ================================================================
+   CONTENT SECTIONS
+   ================================================================ */
+section, .section, .archive-scroll-section { scroll-margin-top: 80px; }
+.section {
+  position: relative;
+  z-index: 10;
+  padding: 100px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .section { padding: 72px 24px; }
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 56px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.section-body {
+  max-width: 580px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+/* ================================================================
+   SOBRE
+   ================================================================ */
+#sobre .about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  #sobre .about-grid { grid-template-columns: 1fr; }
+}
+
+.about-text p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.about-text p:last-child { margin-bottom: 0; }
+
+.about-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stat-item {
+  border: 1px solid rgba(30,108,244,0.2);
+  border-radius: 16px;
+  padding: 20px 24px;
+  background: var(--panel);
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 0 0 rgba(30,108,244,0);
+  transition:
+    border-color .45s var(--ease),
+    background .45s var(--ease),
+    box-shadow .45s var(--ease);
+}
+
+/* Idle top-edge shimmer (subtle, always on) */
+.stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(30,108,244,0.0) 20%,
+    rgba(96,165,250,0.5) 50%,
+    rgba(30,108,244,0.0) 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: stat-shimmer 4s ease-in-out infinite;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes stat-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.stat-item:hover {
+  border-color: rgba(30,108,244,0.45);
+  background: rgba(10,15,42,0.95);
+  box-shadow:
+    0 0 20px rgba(30,108,244,0.1),
+    0 8px 28px rgba(0,0,0,0.4),
+    inset 0 0 16px rgba(30,108,244,0.04);
+}
+
+/* ── Reactive surface glare (follows cursor) ── */
+.stat-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  opacity: var(--sg, 0);
+  background: radial-gradient(
+    320px circle at var(--smx, 50%) var(--smy, 50%),
+    rgba(59,130,246,0.14),
+    rgba(147,197,253,0.05) 45%,
+    transparent 72%
+  );
+  transition: opacity 0.32s ease;
+}
+
+/* ── Reactive border arc (conic sweep following cursor) ── */
+.stat-border-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 17px;         /* 16px card + 1px offset */
+  padding: 1.5px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: var(--sg, 0);
+  background: conic-gradient(
+    from 180deg at var(--smx, 50%) var(--smy, 50%),
+    rgba(30,108,244,0)   0deg,
+    rgba(96,165,250,0.9) 60deg,
+    rgba(125,185,255,1)  90deg,
+    rgba(96,165,250,0.9) 120deg,
+    rgba(30,108,244,0)   180deg,
+    rgba(30,108,244,0)   360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  transition: opacity 0.32s ease;
+}
+
+/* ── Idle ambient border pulse (always on, very subtle) ── */
+.stat-item::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 17px;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(30,108,244,0);
+  animation: stat-border-breathe 5s ease-in-out infinite;
+}
+
+@keyframes stat-border-breathe {
+  0%,100% { box-shadow: 0 0 6px rgba(30,108,244,0.06), inset 0 0 6px rgba(30,108,244,0.03); }
+  50%      { box-shadow: 0 0 14px rgba(30,108,244,0.14), inset 0 0 10px rgba(30,108,244,0.06); }
+}
+
+.stat-label, .stat-value {
+  position: relative;
+  z-index: 4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-item::before { animation: none; }
+  .stat-item::after  { animation: none; }
+}
+
+.stat-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(243,240,232,.4);
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cream);
+}
+
+/* ================================================================
+   PROJECTS
+   ================================================================ */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 860px) {
+  .projects-grid { grid-template-columns: 1fr; }
+}
+
+/* Featured card — first project gets extra visual weight */
+.project-card.featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .project-card.featured {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+  }
+}
+
+.project-card.featured .card-title {
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+}
+
+.project-card.featured .card-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 60ch;
+}
+
+.card-num {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(243,240,232,.3);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.card-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+  flex: 1;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.stack-pill {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: rgba(243,240,232,.55);
+  background: rgba(243,240,232,.04);
+}
+
+.status-badge {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.status-badge.done {
+  color: rgba(74,222,128,.9);
+  background: rgba(74,222,128,.12);
+  border: 1px solid rgba(74,222,128,.2);
+}
+
+.status-badge.wip {
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.status-badge.off {
+  color: rgba(148,163,184,.7);
+  background: rgba(148,163,184,.08);
+  border: 1px solid rgba(148,163,184,.15);
+}
+
+.card-link {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--orange);
+  transition: opacity .3s;
+}
+
+.card-link:hover { opacity: .7; }
+
+.card-team-note {
+  font-size: 11px;
+  color: rgba(243,240,232,.38);
+  font-style: italic;
+}
+
+/* ================================================================
+   SKILLS — ICON CARDS GRID
+   ================================================================ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.skill-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 12px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(30, 108, 244, 0.14);
+  background: rgba(8, 13, 36, 0.7);
+  cursor: default;
+  overflow: hidden;
+  transition: transform .45s var(--ease), border-color .45s var(--ease), background .45s var(--ease), box-shadow .45s var(--ease);
+}
+
+.skill-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(30,108,244,0.1), transparent 65%);
+  opacity: 0;
+  transition: opacity .45s var(--ease);
+}
+
+.skill-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(30, 108, 244, 0.4);
+  background: rgba(10, 16, 46, 0.9);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4), 0 0 20px rgba(30,108,244,0.1);
+}
+
+.skill-card:hover::before { opacity: 1; }
+
+.skill-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform .4s var(--ease-spring);
+}
+
+.skill-card:hover .skill-icon {
+  transform: scale(1.12);
+}
+
+.skill-name {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: rgba(238,242,209,0.75);
+  text-align: center;
+  line-height: 1.3;
+  transition: color .3s;
+  position: relative;
+}
+
+.skill-card:hover .skill-name {
+  color: var(--cream);
+}
+
+@media (max-width: 600px) {
+  .skills-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+  .skill-card { padding: 18px 8px 14px; }
+  .skill-icon { width: 36px; height: 36px; }
+  .skill-name { font-size: 11px; }
+}
+
+/* ================================================================
+   CONTACT
+   ================================================================ */
+.contact-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+#contato .contact-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color .3s var(--ease);
+}
+
+.contact-link:hover { color: var(--cream); }
+
+.contact-link-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.04);
+  font-size: 14px;
+}
+
+/* ── Contact Glass Card (3D Magnetic Tilt) ─────────────────────── */
+.contact-card-stage {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 470px;
+}
+
+.contact-card {
+  position: relative;
+  border-radius: 22px;
+  padding: 32px;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(30, 108, 244, 0.24), transparent 56%),
+    radial-gradient(circle at 10% 92%, rgba(30, 108, 244, 0.14), transparent 48%),
+    linear-gradient(145deg, rgba(10, 17, 46, 0.78) 0%, rgba(5, 9, 26, 0.88) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.26);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 0 42px rgba(30, 108, 244, 0.12),
+    inset 0 1px 0 rgba(147, 197, 253, 0.18),
+    inset 0 0 24px rgba(30, 108, 244, 0.05);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.contact-card::before {
+  content: "";
+  position: absolute;
+  top: -45%;
+  right: -28%;
+  width: 90%;
+  height: 95%;
+  border-radius: 50%;
+  border: 1px solid rgba(96, 165, 250, 0.08);
+  background: radial-gradient(circle, rgba(30, 108, 244, 0.1) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cc-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: var(--glow, 0);
+  background: radial-gradient(
+    360px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(59, 130, 246, 0.16),
+    rgba(147, 197, 253, 0.05) 38%,
+    transparent 70%
+  );
+  transition: opacity 0.28s ease;
+}
+
+.cc-border-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.25px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: var(--glow, 0);
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(125, 185, 255, 0.85),
+    rgba(30, 108, 244, 0.35) 45%,
+    transparent 75%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  transition: opacity 0.28s ease;
+}
+
+.cc-content {
+  position: relative;
+  z-index: 3;
+}
+
+.cc-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(30, 108, 244, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.26);
+  box-shadow: inset 0 1px 0 rgba(147, 197, 253, 0.14);
+  color: #4d8eff;
+  margin-bottom: 22px;
+}
+
+.cc-title {
+  font-size: clamp(1.3rem, 2vw, 1.52rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.24;
+  color: var(--cream);
+  margin-bottom: 10px;
+}
+
+.cc-accent {
+  color: #3b82f6;
+}
+
+.cc-desc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 42px;
+  max-width: 39ch;
+}
+
+.cc-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  position: relative;
+}
+
+.cc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), background 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+.cc-btn-primary {
+  background: linear-gradient(180deg, rgba(30, 80, 195, 0.36) 0%, rgba(15, 34, 96, 0.56) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.36);
+  box-shadow: inset 0 1px 0 rgba(147, 197, 253, 0.2), 0 4px 16px rgba(6, 12, 42, 0.4);
+}
+
+.cc-btn-primary:hover {
+  transform: translateY(-1px);
+  border-color: rgba(96, 165, 250, 0.65);
+  background: linear-gradient(180deg, rgba(30, 96, 225, 0.46) 0%, rgba(20, 44, 120, 0.64) 100%);
+  box-shadow: inset 0 1px 0 rgba(191, 219, 254, 0.28), 0 6px 20px rgba(30, 108, 244, 0.22);
+}
+
+.cc-btn-primary:active {
+  transform: translateY(0);
+}
+
+.cc-btn-secondary {
+  background: rgba(8, 14, 42, 0.62);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.cc-btn-secondary:hover {
+  transform: translateY(-1px);
+  border-color: rgba(59, 130, 246, 0.46);
+  background: rgba(30, 108, 244, 0.14);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.cc-btn-secondary:active {
+  transform: translateY(0);
+}
+
+.cc-ext-icon {
+  opacity: 0.65;
+  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+
+.cc-btn-secondary:hover .cc-ext-icon {
+  opacity: 1;
+  transform: translate(1.5px, -1.5px);
+}
+
+.cc-toast {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 5px);
+  transform: translate(-50%, 6px) scale(0.96);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  border-radius: 12px;
+  background: rgba(9, 15, 42, 0.94);
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(30, 108, 244, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--cream);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+  transition: opacity 0.26s var(--ease), transform 0.26s var(--ease);
+}
+
+.cc-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.cc-toast-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #030614;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .contact-layout {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  .contact-card-stage {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-card {
+    padding: 24px;
+  }
+  .cc-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cc-glare,
+  .cc-border-glow {
+    display: none;
+  }
+}
+
+/* ================================================================
+   FOOTER — REDESIGN
+   ================================================================ */
+footer {
+  position: relative;
+  z-index: 10;
+  border-top: 1px solid var(--line);
+  padding: 56px 48px 36px;
+  background: rgba(3,6,20,0.6);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 28px;
+}
+
+.footer-brand-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  margin-bottom: 8px;
+}
+
+.footer-brand-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(238,242,209,0.4);
+  max-width: 26ch;
+}
+
+.footer-col-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(238,242,209,0.35);
+  margin-bottom: 16px;
+}
+
+.footer-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-nav-list a {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(238,242,209,0.55);
+  transition: color .3s var(--ease);
+}
+
+.footer-nav-list a:hover {
+  color: var(--cream);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.footer-copy {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: rgba(238,242,209,0.28);
+}
+
+.footer-back-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(238,242,209,0.38);
+  border: 1px solid rgba(30,108,244,0.2);
+  border-radius: 999px;
+  padding: 6px 14px;
+  transition: color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+  cursor: pointer;
+  background: none;
+  font-family: inherit;
+}
+
+.footer-back-top:hover {
+  color: var(--cream);
+  border-color: rgba(30,108,244,0.5);
+  background: rgba(30,108,244,0.08);
+}
+
+@media (max-width: 768px) {
+  footer { padding: 40px 24px 28px; }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ================================================================
+   DIVIDERS
+   ================================================================ */
+.section-divider {
+  position: relative;
+  z-index: 10;
+  height: 1px;
+  background: var(--line);
+  margin: 0 48px;
+}
+
+@media (max-width: 768px) {
+  .section-divider { margin: 0 24px; }
+}
+
+/* ================================================================
+   REDUCED MOTION
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-canvas-wrap { display: none !important; }
+  #hero { background: radial-gradient(circle at 50% 50%, rgba(30, 108, 244, .1), transparent 60%); }
+}
+
+/* ================================================================
+   BUTTON "VER PROJETO" — DESTAQUE VISUAL
+   ================================================================ */
+.card-btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
+  border-radius: 999px;
+  background: rgba(30, 108, 244, 0.16);
+  border: 1px solid rgba(30, 108, 244, 0.55);
+  color: var(--cream);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: all 0.35s var(--ease);
+  box-shadow: 0 0 16px rgba(30, 108, 244, 0.25);
+  text-decoration: none;
+}
+.card-btn-action:hover {
+  background: var(--orange);
+  color: #030614;
+  border-color: var(--orange);
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(30, 108, 244, 0.65);
+}
+.card-btn-arrow {
+  display: inline-block;
+  transition: transform 0.3s var(--ease);
+}
+.card-btn-action:hover .card-btn-arrow {
+  transform: translateX(4px);
+}
+
+/* ================================================================
+   CARD SPREAD — TRAJETÓRIA & FOCO
+   Cards start stacked in center (deck), spread to grid on scroll
+   ================================================================ */
+
+/* ── Scroll container (height = scroll distance for the animation) ── */
+.archive-scroll-section {
+  position: relative;
+  height: 300vh;
+  z-index: 10;
+}
+
+/* ── Sticky viewport that stays on screen during the whole animation ── */
+.archive-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Header (title + subtitle) ── */
+.archive-header {
+  position: absolute;
+  top: clamp(84px, 12vh, 120px); /* abaixo da barra de navegação fixa */
+  left: 0;
+  right: 0;
+  padding: 0 48px;
+  will-change: opacity, transform;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  pointer-events: none;
+  z-index: 20;
+}
+.archive-title {
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.15;
+  margin-top: 6px;
+  color: var(--cream);
+}
+.archive-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+/* ── Card stack / spread container ── */
+.archive-gallery-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+/* The inner gallery: becomes a flex row in final state via JS transforms */
+.archive-gallery {
+  display: flex;
+  gap: 24px;
+  position: absolute;
+  /* Centered in the viewport — JS overrides each card individually */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+/* ── Individual cards ── */
+.archive-card {
+  width: 300px;
+  min-width: 300px;
+  height: clamp(300px, 42vh, 340px);
+  border-radius: calc(24px * var(--cs, 1));
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: calc(24px * var(--cs, 1));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute; /* JS positions each card individually */
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.62), 0 0 0 1px var(--line);
+  overflow: hidden;
+  /* Smooth card transitions driven by JS lerp */
+  will-change: transform, opacity;
+  cursor: default;
+}
+/* escurece os cards de trás enquanto estão empilhados (valor via JS) */
+.archive-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #02040f;
+  opacity: var(--dim, 0);
+  pointer-events: none;
+  z-index: 3;
+}
+.archive-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 0%, var(--orange-soft), transparent 60%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Final state hover (only active after cards are spread) */
+.archive-card.spread-done:hover {
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px var(--orange), 0 0 24px rgba(30,108,244,0.2);
+}
+
+.archive-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+.archive-num {
+  font-size: calc(24px * var(--cs, 1));
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--orange);
+}
+.archive-badge {
+  font-size: calc(9px * var(--cs, 1));
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  padding: calc(3px * var(--cs, 1)) calc(8px * var(--cs, 1));
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+}
+.archive-card-body {
+  position: relative;
+  z-index: 2;
+}
+.archive-cat {
+  font-size: calc(10px * var(--cs, 1));
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 6px;
+  display: block;
+}
+.archive-card-title {
+  font-size: calc(18px * var(--cs, 1));
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.archive-card-desc {
+  font-size: calc(12.5px * var(--cs, 1));
+  line-height: 1.55;
+  color: var(--muted);
+}
+.archive-card-footer {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+.archive-tag {
+  font-size: calc(9px * var(--cs, 1));
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--line);
+  padding: calc(3px * var(--cs, 1)) calc(8px * var(--cs, 1));
+  border-radius: 6px;
+}
+
+/* ── Mobile: static vertical stack, no animation ── */
+@media (max-width: 768px) {
+  .archive-scroll-section {
+    height: auto;
+    padding: 60px 0 80px;
+  }
+  .archive-sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+    display: block;
+  }
+  .archive-header {
+    position: static;
+    padding: 0 24px;
+    margin-bottom: 32px;
+    pointer-events: auto;
+  }
+  .archive-gallery-viewport {
+    overflow: visible;
+    padding: 0 24px;
+  }
+  .archive-gallery {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .archive-card {
+    position: static;
+    transform: none !important;
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    min-height: 260px;
+    margin: 0 !important;
+  }
+}
+
+.contact-email { user-select: text; cursor: text; }
+.contact-email:hover { color: var(--muted); }
+
+</style>
+</head>
+
+<body>
+<!-- Overlays -->
+<div class="noise" aria-hidden="true"></div>
+<div class="grid-veil" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="nav" role="banner">
+  <nav aria-label="Navegação principal">
+    <ul class="nav-links">
+      <li><a href="#hero">Início</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#trajetoria">Trajetória</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#habilidades">Habilidades</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+  <button class="nav-mobile-btn" id="mobile-menu-btn" aria-label="Abrir menu">☰</button>
+</header>
+
+<!-- HERO -->
+<section id="hero" aria-label="Introdução">
+  <canvas id="hero-canvas"></canvas>
+
+  <div class="hero-content">
+    <span class="hero-badge" aria-hidden="true" style="display:none;">
+      <span class="hero-badge-dot"></span>
+      Desenvolvedor em formação
+    </span>
+    <h1 class="hero-name">Gabriel Henrique</h1>
+    <p class="hero-sub">
+      Estudante de Desenvolvimento de Sistemas, explorando a interseção entre tecnologia, design e criação de experiências digitais.
+    </p>
+    <div class="hero-cta">
+      <a href="#projetos" class="btn-primary">
+        Ver Projetos
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<section class="video-section" aria-label="Scroll visual">
+  <div class="video-sticky">
+    <video id="scroll-video" muted playsinline preload="auto" aria-hidden="true">
+      <source src="assets/video/1123.mp4" type="video/mp4">
+      <source src="assets/video/1123.mov" type="video/quicktime">
+    </video>
+    <div class="video-overlay">
+      <span class="video-overlay-name" id="video-name-overlay">GABRIEL HENRIQUE</span>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre" class="section" aria-label="Sobre mim">
+  <div class="section-header">
+    <h2 class="section-title">Estudante de<br>Desenvolvimento de Sistemas</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        Curso Desenvolvimento de Sistemas integrado ao Ensino Médio e estou
+        no início da minha trajetória como desenvolvedor. Me interessa a
+        construção de interfaces, a lógica por trás das aplicações e o potencial
+        criativo da tecnologia.
+      </p>
+      <p>
+        Já trabalhei com HTML, CSS, JavaScript, React e ferramentas como
+        Supabase e Tailwind CSS — sempre aprendendo por meio de projetos
+        práticos.
+      </p>
+    </div>
+    <div class="about-side">
+      <div class="stat-item">
+        <div class="stat-glare" aria-hidden="true"></div>
+        <div class="stat-border-glow" aria-hidden="true"></div>
+        <div class="stat-label">Formação</div>
+        <div class="stat-value">Desenvolvimento de Sistemas (Integrado ao EM)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-glare" aria-hidden="true"></div>
+        <div class="stat-border-glow" aria-hidden="true"></div>
+        <div class="stat-label">Foco atual</div>
+        <div class="stat-value">Interfaces, aplicações web e experiências digitais</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-glare" aria-hidden="true"></div>
+        <div class="stat-border-glow" aria-hidden="true"></div>
+        <div class="stat-label">Abordagem</div>
+        <div class="stat-value">Aprendizado via projetos práticos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CARD SPREAD ANIMATION — TRAJETÓRIA & FOCO -->
+<section class="archive-scroll-section" id="trajetoria" aria-label="Trajetória e Foco">
+  <div class="archive-sticky">
+    <!-- Header: fades in at start of sequence -->
+    <div class="archive-header" id="archive-header">
+      <h2 class="archive-title">Fundamentos coletados ao longo do aprendizado</h2>
+      <p class="archive-sub">Conforme você rola a página, acompanhe as diretrizes estruturais que orientam meus estudos e desenvolvimento.</p>
+    </div>
+
+    <!-- Card spread viewport -->
+    <div class="archive-gallery-viewport">
+      <div class="archive-gallery" id="archive-gallery">
+
+        <!-- Card 2: Foco Atual -->
+        <article class="archive-card" id="acard-2">
+          <div class="archive-card-top">
+            <span class="archive-num">01</span>
+            <span class="archive-badge">Front-End</span>
+          </div>
+          <div class="archive-card-body">
+            <span class="archive-cat">Foco Atual</span>
+            <h3 class="archive-card-title">Interfaces & Aplicações Web</h3>
+            <p class="archive-card-desc">Construção de experiências digitais imersivas, responsividade refinada, design systems e consumo de APIs modernas.</p>
+          </div>
+          <div class="archive-card-footer">
+            <span class="archive-tag">UI / UX</span>
+            <span class="archive-tag">Web Apps</span>
+          </div>
+        </article>
+
+        <!-- Card 3: Abordagem -->
+        <article class="archive-card" id="acard-3">
+          <div class="archive-card-top">
+            <span class="archive-num">02</span>
+            <span class="archive-badge">Prática</span>
+          </div>
+          <div class="archive-card-body">
+            <span class="archive-cat">Abordagem</span>
+            <h3 class="archive-card-title">Aprendizado via Projetos Práticos</h3>
+            <p class="archive-card-desc">Evolução acelerada construindo projetos reais, resolvendo problemas reais e explorando novas tecnologias na prática.</p>
+          </div>
+          <div class="archive-card-footer">
+            <span class="archive-tag">Hands-on</span>
+            <span class="archive-tag">Iteração</span>
+          </div>
+        </article>
+
+        <!-- Card 4: Visão de Futuro -->
+        <article class="archive-card" id="acard-4">
+          <div class="archive-card-top">
+            <span class="archive-num">03</span>
+            <span class="archive-badge">Visão</span>
+          </div>
+          <div class="archive-card-body">
+            <span class="archive-cat">Objetivo</span>
+            <h3 class="archive-card-title">Código Limpo & Design Sofisticado</h3>
+            <p class="archive-card-desc">Unir precisão técnica e sensibilidade visual para construir aplicações web completas, modernas e acessíveis.</p>
+          </div>
+          <div class="archive-card-footer">
+            <span class="archive-tag">Full-Stack</span>
+            <span class="archive-tag">Evolução</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="section-divider"></div>
+
+<!-- PROJETOS -->
+<section id="projetos" class="section" aria-label="Projetos">
+  <div class="section-header">
+    <h2 class="section-title">O que tenho<br>construído</h2>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Card 1 -->
+    <article class="project-card featured">
+      <div>
+        <div class="card-num">01</div>
+        <div>
+          <span class="status-badge done">Concluído</span>
+        </div>
+        <h3 class="card-title">Academia Força Total</h3>
+        <p class="card-desc">Website institucional para academia com foco em identidade visual e experiência digital moderna.</p>
+        <div class="card-stack">
+          <span class="stack-pill">HTML</span>
+          <span class="stack-pill">CSS</span>
+          <span class="stack-pill">JS</span>
+        </div>
+      </div>
+      <div class="card-footer" style="align-self: end; padding-top: 0; border-top: none;">
+        <a href="https://ghsantana7.github.io/academia-forca-total/" target="_blank" rel="noopener" class="card-btn-action">
+          Ver projeto
+          <span class="card-btn-arrow">→</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="project-card">
+      <div class="card-num">02</div>
+      <div>
+        <span class="status-badge wip">Em desenvolvimento</span>
+      </div>
+      <h3 class="card-title">Arcor Christmas Experience</h3>
+      <p class="card-desc">Proposta de experiência natalina imersiva e interativa para a marca Arcor no Shopping Eldorado.</p>
+      <p class="card-team-note">Projeto em equipe — participação no desenvolvimento front-end</p>
+      <div class="card-stack">
+        <span class="stack-pill">React</span>
+        <span class="stack-pill">JavaScript</span>
+        <span class="stack-pill">CSS</span>
+        <span class="stack-pill">Supabase</span>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:11px; color: var(--muted);">Em andamento</span>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="project-card">
+      <div class="card-num">03</div>
+      <div>
+        <span class="status-badge off">Arquivado</span>
+      </div>
+      <h3 class="card-title">AlertaChuva</h3>
+      <p class="card-desc">Sistema de monitoramento de enchentes e áreas de alagamento em São Paulo, com dados colaborativos e mapa de riscos.</p>
+      <div class="card-stack">
+        <span class="stack-pill">React</span>
+        <span class="stack-pill">Vite</span>
+        <span class="stack-pill">Tailwind CSS</span>
+        <span class="stack-pill">Node.js</span>
+        <span class="stack-pill">Supabase</span>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:11px; color: var(--muted);">Arquivado</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- HABILIDADES -->
+<section id="habilidades" class="section" aria-label="Habilidades">
+  <div class="section-header">
+    <h2 class="section-title">Tecnologias<br>que utilizo</h2>
+    <p class="section-body">Ferramentas e linguagens que fazem parte do meu dia a dia de desenvolvimento.</p>
+  </div>
+  <div class="skills-grid">
+
+    <!-- HTML5 -->
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="4,2 36,2 33.2,34.4 20,38 6.8,34.4" fill="#E44D26"/>
+          <polygon points="20,2 20,38 33.2,34.4 36,2" fill="#F16529"/>
+          <polygon points="12.8,10 20,10 20,15.6 18.3,15.6 18.3,22.3 20,22.3 20,27.9 13.6,26.1 13.1,20.5 15.9,20.5 16.1,22.6 18.3,23.2 18.3,25.5 20,25.9" fill="#EBEBEB" style="display:none"/>
+          <text x="20" y="30" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="900" fill="white">5</text>
+        </svg>
+      </div>
+      <span class="skill-name">HTML</span>
+    </div>
+
+    <!-- CSS3 -->
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="4,2 36,2 33.2,34.4 20,38 6.8,34.4" fill="#264DE4"/>
+          <polygon points="20,2 20,38 33.2,34.4 36,2" fill="#2965F1"/>
+          <text x="20" y="30" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="900" fill="white">3</text>
+        </svg>
+      </div>
+      <span class="skill-name">CSS</span>
+    </div>
+
+    <!-- JavaScript -->
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="5" fill="#F7DF1E"/>
+          <text x="21" y="30" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="900" fill="#323330">JS</text>
+        </svg>
+      </div>
+      <span class="skill-name">JavaScript</span>
+    </div>
+
+    <!-- React -->
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="2.8" fill="#61DAFB"/>
+          <ellipse cx="16" cy="16" rx="13" ry="5" stroke="#61DAFB" stroke-width="1.5" fill="none"/>
+          <ellipse cx="16" cy="16" rx="13" ry="5" stroke="#61DAFB" stroke-width="1.5" fill="none" transform="rotate(60 16 16)"/>
+          <ellipse cx="16" cy="16" rx="13" ry="5" stroke="#61DAFB" stroke-width="1.5" fill="none" transform="rotate(120 16 16)"/>
+        </svg>
+      </div>
+      <span class="skill-name">React</span>
+    </div>
+
+    <!-- Tailwind CSS -->
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 7c-3.6 0-5.8 1.8-6.7 5.3 1.3-1.8 2.9-2.4 4.7-2 1 .25 1.7 1 2.5 1.8 1.3 1.3 2.8 2.9 6 2.9 3.6 0 5.8-1.8 6.7-5.3-1.3 1.8-2.9 2.4-4.7 2-1-.25-1.7-1-2.5-1.8C20.7 8.6 19.2 7 16 7zM9.3 16c-3.6 0-5.8 1.8-6.7 5.3 1.3-1.8 2.9-2.4 4.7-2 1 .25 1.7 1 2.5 1.8 1.3 1.3 2.8 2.9 6 2.9 3.6 0 5.8-1.8 6.7-5.3-1.3 1.8-2.9 2.4-4.7 2-1-.25-1.7-1-2.5-1.8C14 17.6 12.5 16 9.3 16z" fill="#38BDF8"/>
+        </svg>
+      </div>
+      <span class="skill-name">Tailwind CSS</span>
+    </div>
+
+    <!-- Vite -->
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M29.5 5.4L16.9 28.1a.65.65 0 01-1.1 0L2.5 5.4a.65.65 0 01.68-.96l13.1 2.4a.65.65 0 00.24 0l12.8-2.4a.65.65 0 01.68.96z" fill="url(#vite-g1)"/>
+          <path d="M22.1 2l-6.6 12.3-1.9-10.6L22.1 2z" fill="url(#vite-g2)" opacity=".8"/>
+          <defs>
+            <linearGradient id="vite-g1" x1="6" y1="2" x2="26" y2="30" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#41D1FF"/><stop offset="1" stop-color="#BD34FE"/>
+            </linearGradient>
+            <linearGradient id="vite-g2" x1="15" y1="2" x2="18" y2="14" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FFD62E"/><stop offset="1" stop-color="#F16729"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="skill-name">Vite</span>
+    </div>
+
+    <!-- Node.js -->
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2.4L4 9.2v13.6l12 6.8 12-6.8V9.2L16 2.4z" fill="#339933"/>
+          <path d="M16 2.4L4 9.2v13.6l12 6.8V2.4z" fill="#66BB6A"/>
+          <path d="M16 8.8v5.6l4.8 2.8v-5.6L16 8.8z" fill="#fff"/>
+          <path d="M11.2 11.6L16 8.8l4.8 2.8L16 14.4l-4.8-2.8z" fill="#fff" opacity=".6"/>
+        </svg>
+      </div>
+      <span class="skill-name">Node.js</span>
+    </div>
+
+    <!-- Supabase -->
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.4 2.6a1.9 1.9 0 00-3.3 1.3V15h8.5a1.9 1.9 0 001.4-3.2L18.4 2.6z" fill="url(#sb1)"/>
+          <path d="M13.6 29.4a1.9 1.9 0 003.3-1.3V17H8.4a1.9 1.9 0 00-1.4 3.2l6.6 9.2z" fill="#3ECF8E"/>
+          <defs>
+            <linearGradient id="sb1" x1="22" y1="2" x2="10" y2="20" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#249361"/><stop offset="1" stop-color="#3ECF8E"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="skill-name">Supabase</span>
+    </div>
+
+    <!-- Git -->
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M29.5 14.5l-12-12a2.1 2.1 0 00-3 0L12 5l3.8 3.8a2.5 2.5 0 013.1 3.2L22.5 16a2.5 2.5 0 11-1.5 2.3v-.1l-3.5-3.5v9.2a2.5 2.5 0 11-2 0V14.4a2.5 2.5 0 01-1.3-3.3L10.5 7.5l-7.9 7.9a2.1 2.1 0 000 3l12 12a2.1 2.1 0 003 0l11.9-11.9a2.1 2.1 0 000-3z" fill="#F05133"/>
+        </svg>
+      </div>
+      <span class="skill-name">Git</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTATO -->
+<section id="contato" class="section" aria-label="Contato">
+  <div class="contact-layout">
+    <div class="contact-inner">
+      <div class="section-header" style="margin-bottom: 0;">
+        <h2 class="section-title">Vamos<br>conversar?</h2>
+        <p class="section-body">Estou aberto a conexões, aprendizados e novas oportunidades.</p>
+      </div>
+      <div class="contact-links">
+        <a href="https://github.com/ghsantana7" target="_blank" rel="noopener" class="contact-link">
+          <span class="contact-link-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </span>
+          github.com/ghsantana7
+        </a>
+        <div class="contact-link contact-email">
+          <span class="contact-link-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+          </span>
+          bisantanna23@gmail.com
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-card-stage">
+      <div class="contact-card" id="contact-card">
+        <div class="cc-glare" aria-hidden="true"></div>
+        <div class="cc-border-glow" aria-hidden="true"></div>
+
+        <div class="cc-content">
+          <div class="cc-icon-wrap" aria-hidden="true">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m11 17 2 2a1 1 0 1 0 3-3"/>
+              <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/>
+              <path d="m21 3 1 11h-2"/>
+              <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/>
+              <path d="M3 4h8"/>
+            </svg>
+          </div>
+
+          <h3 class="cc-title">
+            Querendo <span class="cc-accent">criar projetos</span><br>
+            ou colaborar em algo?
+          </h3>
+
+          <p class="cc-desc">
+            Entre em contato comigo! Será um prazer conversar sobre ideias, projetos e oportunidades.
+          </p>
+
+          <div class="cc-actions">
+            <div class="cc-toast" id="copy-email-toast" role="status" aria-live="polite">
+              <span class="cc-toast-check" aria-hidden="true">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
+              E-mail copiado!
+            </div>
+
+            <button type="button" class="cc-btn cc-btn-primary" id="copy-email-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect width="12" height="12" x="8" y="8" rx="2" ry="2"/>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+              </svg>
+              Copiar e-mail
+            </button>
+
+            <a href="https://github.com/ghsantana7" target="_blank" rel="noopener noreferrer" class="cc-btn cc-btn-secondary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+              </svg>
+              Acessar GitHub
+              <svg class="cc-ext-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-name">Gabriel Henrique</div>
+        <p class="footer-brand-desc">Desenvolvedor em formação, construindo experiências digitais com atenção ao design e à técnica.</p>
+      </div>
+      <div>
+        <div class="footer-col-label">Navegação</div>
+        <ul class="footer-nav-list">
+          <li><a href="#hero">Início</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#trajetoria">Trajetória</a></li>
+          <li><a href="#projetos">Projetos</a></li>
+          <li><a href="#habilidades">Habilidades</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Contato</div>
+        <ul class="footer-nav-list">
+          <li><a href="https://github.com/ghsantana7" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="#contato">Enviar mensagem</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Gabriel Henrique · Feito com dedicação</span>
+      <button class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        ↑ Voltar ao topo
+      </button>
+    </div>
+  </div>
+</footer>
+
+<!-- ================================================================
+     THREE.JS PARTICLE SYSTEM — HERO
+     ================================================================ -->
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+
+// ── Reduced motion guard ──────────────────────────────────────────
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const heroSection = document.getElementById('hero');
+const canvas = document.getElementById('hero-canvas');
+
+if (prefersReducedMotion) {
+  canvas.style.display = 'none';
+} else {
+  // ── CONFIG ───────────────────────────────────────────────────────
+  const isMobile = window.innerWidth < 768;
+  const PARTICLE_COUNT = isMobile ? 80000 : 160000;
+  const BG_COLOR = 0x030614;
+
+  // ── STATE ────────────────────────────────────────────────────────
+  const mouse = {
+    right: { pos: new THREE.Vector3(100, 0, 0), target: new THREE.Vector3(100, 0, 0) }
+  };
+  let time = 0;
+
+  // ── RENDERER ─────────────────────────────────────────────────────
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: false,
+    powerPreference: 'high-performance',
+    alpha: false,
+    stencil: false,
+    depth: true
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+  renderer.toneMapping = THREE.CineonToneMapping;
+  renderer.toneMappingExposure = 1.2;
+
+  // ── SCENE ────────────────────────────────────────────────────────
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(BG_COLOR, 0.015);
+  scene.background = new THREE.Color(BG_COLOR);
+
+  const camera = new THREE.PerspectiveCamera(60, canvas.offsetWidth / canvas.offsetHeight, 0.1, 200);
+  camera.position.z = isMobile ? 40 : 28;
+
+  // ── POST PROCESSING ───────────────────────────────────────────────
+  const renderPass = new RenderPass(scene, camera);
+
+  const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(canvas.offsetWidth, canvas.offsetHeight),
+    1.5, 0.4, 0.85
+  );
+  bloomPass.threshold = 0.16;
+  bloomPass.strength = 0.65;
+  bloomPass.radius = 0.8;
+
+  const outputShader = {
+    uniforms: {
+      tDiffuse: { value: null },
+      uTime:    { value: 0 },
+      uRGBShift:{ value: 0.002 }
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform sampler2D tDiffuse;
+      uniform float uTime;
+      uniform float uRGBShift;
+      varying vec2 vUv;
+
+      float random(vec2 p) {
+        return fract(sin(dot(p.xy, vec2(12.9898, 78.233))) * 43758.5453);
+      }
+
+      void main() {
+        vec2 uv = vUv;
+        float dist = distance(uv, vec2(0.5));
+        vec2 offset = (uv - 0.5) * dist * uRGBShift;
+
+        float r = texture2D(tDiffuse, uv + offset).r;
+        float g = texture2D(tDiffuse, uv).g;
+        float b = texture2D(tDiffuse, uv - offset).b;
+
+        vec3 color = vec3(r, g, b);
+        float noise = (random(uv + uTime) - 0.5) * 0.04;
+        color += noise;
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `
+  };
+
+  const finalPass = new ShaderPass(outputShader);
+  const composer = new EffectComposer(renderer);
+  composer.addPass(renderPass);
+  composer.addPass(bloomPass);
+  composer.addPass(finalPass);
+
+  // ── PARTICLE SHADERS ─────────────────────────────────────────────
+  const vertexShader = `
+    uniform float uTime;
+    uniform vec3 uHandRight;
+
+    attribute vec3 aRandom;
+    attribute float aIndex;
+
+    varying vec3 vColor;
+    varying float vAlpha;
+
+    // Simplex Noise
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+    vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+    float snoise(vec3 v) {
+      const vec2  C = vec2(1.0/6.0, 1.0/3.0);
+      const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+      vec3 i  = floor(v + dot(v, C.yyy));
+      vec3 x0 = v - i + dot(i, C.xxx);
+      vec3 g = step(x0.yzx, x0.xyz);
+      vec3 l = 1.0 - g;
+      vec3 i1 = min(g.xyz, l.zxy);
+      vec3 i2 = max(g.xyz, l.zxy);
+      vec3 x1 = x0 - i1 + C.xxx;
+      vec3 x2 = x0 - i2 + C.yyy;
+      vec3 x3 = x0 - D.yyy;
+      i = mod289(i);
+      vec4 p = permute(permute(permute(
+                  i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+      float n_ = 0.142857142857;
+      vec3  ns = n_ * D.wyz - D.xzx;
+      vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+      vec4 x_ = floor(j * ns.z);
+      vec4 y_ = floor(j - 7.0 * x_);
+      vec4 x = x_ *ns.x + ns.yyyy;
+      vec4 y = y_ *ns.x + ns.yyyy;
+      vec4 h = 1.0 - abs(x) - abs(y);
+      vec4 b0 = vec4(x.xy, y.xy);
+      vec4 b1 = vec4(x.zw, y.zw);
+      vec4 s0 = floor(b0)*2.0 + 1.0;
+      vec4 s1 = floor(b1)*2.0 + 1.0;
+      vec4 sh = -step(h, vec4(0.0));
+      vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+      vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+      vec3 p0 = vec3(a0.xy, h.x);
+      vec3 p1 = vec3(a0.zw, h.y);
+      vec3 p2 = vec3(a1.xy, h.z);
+      vec3 p3 = vec3(a1.zw, h.w);
+      vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+      p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+      vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+      m = m * m;
+      return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+    }
+
+    // Nebula (sphere + ambient cosmic field filling all corners & right side)
+    vec3 getPosSphere(float idx) {
+      float phi = acos(-1.0 + (2.0 * idx) / ${PARTICLE_COUNT}.0);
+      float theta = sqrt(${PARTICLE_COUNT}.0 * 3.1415926) * phi;
+      
+      float r;
+      if (aRandom.x < 0.58) {
+        // Main energetic nebula (broad coverage)
+        r = 10.0 + aRandom.x * 19.0;
+      } else {
+        // Outer cosmic field filling right, left, and all corners
+        r = 16.0 + aRandom.y * 25.0;
+      }
+      
+      // Symmetrical widescreen stretch (1.45x in X)
+      return vec3(r * sin(phi) * cos(theta) * 1.45, r * sin(phi) * sin(theta) * 0.95, r * cos(phi) * 0.75);
+    }
+
+    void main() {
+      float t = uTime * 0.15;
+
+      vec3 pos = getPosSphere(aIndex);
+
+      // Organic noise movement
+      vec3 noiseBase = vec3(
+        snoise(vec3(aIndex*0.01, t*0.2, 0.0)),
+        snoise(vec3(aIndex*0.01, 0.0,   t*0.2)),
+        snoise(vec3(0.0, aIndex*0.01,   t*0.2))
+      );
+      pos += noiseBase * 4.0;
+
+      // Mouse / touch push interaction
+      if (uHandRight.x < 90.0) {
+        float d = distance(pos, uHandRight);
+        float influence = smoothstep(18.0, 0.0, d);
+        pos += normalize(pos - uHandRight) * influence * 9.5;
+      }
+
+      vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+      gl_PointSize = (1.5 + aRandom.y * 2.2) * (30.0 / -mvPosition.z);
+      gl_Position = projectionMatrix * mvPosition;
+
+      float depthFade = smoothstep(68.0, 6.0, -mvPosition.z);
+      
+      // Soften center slightly for text readability, keep edges bright
+      float centerDist = length(pos.xy);
+      float centerSoften = smoothstep(2.5, 11.0, centerDist);
+      centerSoften = 0.55 + 0.45 * centerSoften;
+      vAlpha = depthFade * (0.24 + aRandom.z * 0.55) * centerSoften;
+      vColor = pos;
+    }
+  `;
+
+  const fragmentShader = `
+    uniform vec3 uColor1;
+    uniform vec3 uColor2;
+    varying vec3 vColor;
+    varying float vAlpha;
+
+    void main() {
+      vec2 center = gl_PointCoord - 0.5;
+      float dist = length(center);
+      if (dist > 0.5) discard;
+
+      float glow = 1.0 - smoothstep(0.0, 0.5, dist);
+      glow = pow(glow, 1.6);
+
+      // Balanced color mixing: right side maintains bright warm accents
+      float colorMix = smoothstep(-24.0, 24.0, vColor.x * 0.75 + vColor.z);
+      vec3 col = mix(uColor1, uColor2, colorMix * 0.75);
+      gl_FragColor = vec4(col, vAlpha * glow);
+    }
+  `;
+
+  // ── GEOMETRY ─────────────────────────────────────────────────────
+  const geometry = new THREE.BufferGeometry();
+  const indices = new Float32Array(PARTICLE_COUNT);
+  const randoms = new Float32Array(PARTICLE_COUNT * 3);
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    indices[i] = i;
+    randoms[i * 3]     = Math.random();
+    randoms[i * 3 + 1] = Math.random();
+    randoms[i * 3 + 2] = Math.random();
+  }
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(PARTICLE_COUNT * 3).fill(0), 3));
+  geometry.setAttribute('aIndex',   new THREE.BufferAttribute(indices, 1));
+  geometry.setAttribute('aRandom',  new THREE.BufferAttribute(randoms, 3));
+
+  // Palette 2: Orange / Rose — matches --orange: #ff5a1f
+  const C1 = new THREE.Color('#1E6CF4'); // Electric Cerulean Blue
+  const C2 = new THREE.Color('#EEF2D1'); // Moonlight White/Cream
+
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime:      { value: 0 },
+      uHandRight: { value: new THREE.Vector3(100, 0, 0) },
+      uColor1:    { value: C1 },
+      uColor2:    { value: C2 }
+    },
+    vertexShader,
+    fragmentShader,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+
+  const points = new THREE.Points(geometry, material);
+  scene.add(points);
+
+  
+  // ── MOUSE / TOUCH INTERACTION ────────────────────────────────────
+  window.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth) * 2 - 1;
+    const y = -(e.clientY / window.innerHeight) * 2 + 1;
+    mouse.right.target.set(x * 30, y * 20, 0);
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    const x = (touch.clientX / window.innerWidth) * 2 - 1;
+    const y = -(touch.clientY / window.innerHeight) * 2 + 1;
+    mouse.right.target.set(x * 30, y * 20, 0);
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    mouse.right.target.set(100, 0, 0);
+  }, { passive: true });
+
+  // ── RESIZE ───────────────────────────────────────────────────────
+  const onResize = () => {
+    const w = heroSection.offsetWidth;
+    const h = heroSection.offsetHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+    composer.setSize(w, h);
+  };
+  window.addEventListener('resize', onResize);
+
+  // ── ANIMATE ──────────────────────────────────────────────────────
+  const clock = new THREE.Clock();
+  let animId;
+  let isVisible = true;
+  let isHeroInView = true;
+
+  // Pause when tab is not active
+  document.addEventListener('visibilitychange', () => {
+    isVisible = document.visibilityState === 'visible';
+    if (isVisible) clock.getDelta(); // reset delta spike
+  });
+
+  // Optimize: Pause animation when Hero scrolls out of viewport
+  const heroObserver = new IntersectionObserver(([entry]) => {
+    isHeroInView = entry.isIntersecting;
+    if (isHeroInView) clock.getDelta();
+  }, { threshold: 0.05 });
+  heroObserver.observe(heroSection);
+
+  function animate() {
+    animId = requestAnimationFrame(animate);
+    if (!isVisible || !isHeroInView) return;
+
+    const delta = clock.getDelta();
+    time += delta;
+
+    // Smooth mouse lerp
+    mouse.right.pos.lerp(mouse.right.target, 0.1);
+    material.uniforms.uHandRight.value.copy(mouse.right.pos);
+    material.uniforms.uTime.value = time;
+    finalPass.uniforms.uTime.value = time;
+
+    // Subtle camera sway
+    const cZ = isMobile ? 40 : 28;
+    camera.position.z += ((cZ + Math.sin(time * 0.5) * 2) - camera.position.z) * 0.02;
+    camera.position.x = Math.sin(time * 0.2) * 2;
+    camera.position.y = Math.cos(time * 0.15) * 2;
+    camera.lookAt(0, 0, 0);
+
+    composer.render();
+  }
+
+  animate();
+}
+
+// ================================================================
+//  SCROLL-DRIVEN VIDEO
+// ================================================================
+const videoSection = document.querySelector('.video-section');
+const video = document.getElementById('scroll-video');
+const videoNameOverlay = document.getElementById('video-name-overlay');
+
+if (video && videoSection) {
+  let targetTime = 0;
+  let scrubRafId = null;
+
+  // Preload and initialize
+  video.muted = true;
+  video.playsInline = true;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    video.load();
+  });
+
+  video.addEventListener('loadedmetadata', () => {
+    video.currentTime = 0;
+  });
+
+  // Prime video on first user interaction to ensure decoder readiness
+  const primeVideo = () => {
+    if (video.readyState >= 1) {
+      video.play().then(() => {
+        video.pause();
+      }).catch(() => {});
+    }
+    window.removeEventListener('scroll', primeVideo, { passive: true });
+    window.removeEventListener('touchstart', primeVideo, { passive: true });
+  };
+  window.addEventListener('scroll', primeVideo, { passive: true });
+  window.addEventListener('touchstart', primeVideo, { passive: true });
+
+  // Decoder seek lock prevents choppy keyframe aborts
+  let smoothedTime = 0;
+  let isSeeking = false;
+  let seekStartTime = 0;
+  let hasPendingSeek = false;
+  let lastVideoFrame = performance.now();
+
+  function updateScrollProgress() {
+    const rect = videoSection.getBoundingClientRect();
+    const sectionHeight = videoSection.offsetHeight - window.innerHeight;
+    if (sectionHeight <= 0) return;
+    const scrolled = -rect.top;
+    const progress = Math.max(0, Math.min(1, scrolled / sectionHeight));
+
+    if (video.duration) {
+      targetTime = progress * video.duration;
+    }
+
+    // Overlay opacity: visible at start, smoothly fades as head turns
+    if (videoNameOverlay) {
+      videoNameOverlay.style.opacity = Math.max(0, 1 - progress * 2.8);
+    }
+  }
+
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  updateScrollProgress();
+
+  video.addEventListener('seeking', () => {
+    isSeeking = true;
+    seekStartTime = performance.now();
+  });
+
+  video.addEventListener('seeked', () => {
+    isSeeking = false;
+    if (hasPendingSeek) {
+      hasPendingSeek = false;
+      dispatchSeek();
+    }
+  });
+
+  function dispatchSeek() {
+    if (!video.duration || video.readyState < 2) return;
+    if (isSeeking && (performance.now() - seekStartTime) < 120) {
+      hasPendingSeek = true;
+      return;
+    }
+    if (Math.abs(video.currentTime - smoothedTime) > 0.005) {
+      isSeeking = true;
+      seekStartTime = performance.now();
+      video.currentTime = smoothedTime;
+    }
+  }
+
+  // Continuous animation frame loop: frame-rate-independent smoothing
+  function videoLerpLoop(now) {
+    requestAnimationFrame(videoLerpLoop);
+
+    const dt = Math.min(0.05, ((now || performance.now()) - lastVideoFrame) / 1000) || 0.016;
+    lastVideoFrame = now || performance.now();
+
+    const rect = videoSection.getBoundingClientRect();
+    // Only process if section is on screen or nearby
+    if (rect.bottom < -100 || rect.top > window.innerHeight + 100) return;
+
+    const diff = targetTime - smoothedTime;
+    if (Math.abs(diff) > 0.0008) {
+      const factor = 1 - Math.exp(-dt * 14);
+      smoothedTime += diff * factor;
+      dispatchSeek();
+    }
+  }
+  requestAnimationFrame(videoLerpLoop);
+}
+
+// ================================================================
+//  MOBILE MENU (class toggle)
+// ================================================================
+const mobileBtn = document.getElementById('mobile-menu-btn');
+if (mobileBtn) {
+  const navLinks = document.querySelector('.nav-links');
+  mobileBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+  // Close on link click
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+    });
+  });
+}
+
+// ================================================================
+//  SCROLL REVEAL (simple IntersectionObserver)
+// ================================================================
+const revealElements = document.querySelectorAll('.section-title, .section-body, .about-text, .about-side, .project-card, .skill-card, .contact-link, .stat-item');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+revealElements.forEach((el, i) => {
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = `opacity .7s var(--ease) ${i * 0.04}s, transform .7s var(--ease) ${i * 0.04}s`;
+  }
+  revealObserver.observe(el);
+});
+
+// ================================================================
+//  CARD SPREAD — TRAJETÓRIA & FOCO
+//
+//  Movimento inspirado no "hero-stack" da Axisform:
+//   1. Os 3 cards chegam JUNTOS, do mesmo tamanho, empilhados num
+//      leque de inclinações diferentes (-17°, 13°, 18°, 4°).
+//   2. Ao chegar na seção a tela "congela" (sticky) e, conforme o
+//      scroll avança, os cards se ENTORTAM uns contra os outros
+//      (inclinações aumentam, o card da frente se endireita, o
+//      conjunto encolhe levemente) — igual ao scrub da Axisform.
+//   3. Em seguida cada card se solta do monte, balança no trajeto e
+//      vai ocupar o seu espaço, chegando reto na posição final.
+//   4. A tela descongela e a página segue normalmente.
+// ================================================================
+(function () {
+  const section = document.querySelector('.archive-scroll-section');
+  const sticky  = section ? section.querySelector('.archive-sticky') : null;
+  const header  = document.getElementById('archive-header');
+  const cards   = Array.from(document.querySelectorAll('.archive-card'));
+  if (!section || !sticky || cards.length === 0) return;
+
+  const mqMobile = window.matchMedia('(max-width: 768px)');
+  const REDUCED  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N   = cards.length;
+  const GAP = 24;
+
+  // ── Referência da Axisform (card de 480×620) ─────────────────
+  const REF_W = 480, REF_H = 620;
+
+  // Posição inicial do monte (classes do .hero-card no site da Axisform)
+  const FAN_START = [
+    { x: -80, y: 48, r: -17 },
+    { x:  80, y: 40, r:  13 },
+    { x:   0, y:  0, r:   4 },   // card da frente
+  ];
+  // Posição "entortada" (o .to() do scrub da Axisform no hero)
+  const FAN_TILT = [
+    { x: -46, y:  34, r: -24 },
+    { x:  42, y: -34, r:  20 },
+    { x:   8, y:  12, r:   0 },
+  ];
+  const STACK_SCALE = 0.94;   // o monte encolhe um pouco, como na Axisform
+  const STACK_RISE  = -35;    // e sobe um pouco (px na escala de referência)
+
+  // Escurecimento dos cards de trás (dá profundidade ao monte)
+  const DIM_BASE = [0.5, 0.3, 0];
+  // Balanço extra (graus) durante o trajeto até o espaço final
+  const SWAY = [-7, 6, -5];
+
+  // ── Linha do tempo (0–1 = progresso do scroll na seção) ──────
+  const TILT_START   = 0.02;
+  const TILT_LEN     = 0.26;
+  const SPREAD_START = 0.26;
+  const SPREAD_STAG  = 0.045;  // cada card sai um pouco depois do anterior
+  const SPREAD_LEN   = 0.5;
+  const DONE_AT      = 0.87;
+
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+  const lerp    = (a, b, t) => a + (b - a) * t;
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  const easeIO  = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  // ── Layout (recalculado no resize) ───────────────────────────
+  let L = null;
+  function measure() {
+    const W  = sticky.clientWidth;
+    const H  = sticky.clientHeight;
+    const hb = header ? header.offsetTop + header.offsetHeight : 120;
+    const cols = W >= 900 ? Math.min(N, 3) : 2;
+    const rows = Math.ceil(N / cols);
+    const padX = Math.max(24, W * 0.04), padB = 36;
+    const availH = H - hb - padB - 28;
+
+    // cards grandes: ocupam a largura disponível (até 460px) e a altura livre
+    let cw = Math.min(460, (W - padX * 2 - GAP * (cols - 1)) / cols);
+    const ch = Math.max(280, Math.min(cw * 1.15, (availH - GAP * (rows - 1)) / rows));
+    cw = Math.min(cw, ch * 1.25);
+
+    const blockH = rows * ch + (rows - 1) * GAP;
+    const cy = hb + 28 + Math.max(0, availH - blockH) / 2 + blockH / 2;
+
+    L = {
+      W, H, cw, ch,
+      cs: Math.min(cw / 300, ch / 310),   // escala dos textos (1 = tamanho base do CSS)
+      sx: cw / REF_W,
+      sy: ch / REF_H,
+      stackY: H * 0.07,
+      slots: cards.map((_, i) => {
+        const row = Math.floor(i / cols), col = i % cols;
+        const inRow = Math.min(cols, N - row * cols);   // centraliza a última linha
+        return {
+          x: (col - (inRow - 1) / 2) * (cw + GAP),
+          y: (cy - H / 2) + (row - (rows - 1) / 2) * (ch + GAP),
+        };
+      }),
+    };
+  }
+
+  function sizeCards() {
+    cards.forEach(card => {
+      card.style.width  = L.cw + 'px';
+      card.style.height = L.ch + 'px';
+      card.style.setProperty('--cs', L.cs.toFixed(3));
+    });
+  }
+
+  // ── Pose de cada card para um dado progresso ─────────────────
+  function render(p) {
+    const dim = 1 - easeOut(clamp01((p - 0.1) / 0.45));
+
+    cards.forEach((card, i) => {
+      const fs = FAN_START[i % FAN_START.length];
+      const ft = FAN_TILT[i % FAN_TILT.length];
+      const slot = L.slots[i];
+
+      // A: monte inicial → monte "entortado"
+      const a = { x: fs.x * L.sx, y: fs.y * L.sy + L.stackY, r: fs.r, s: 1 };
+      const b = {
+        x: ft.x * L.sx * STACK_SCALE,
+        y: ft.y * L.sy * STACK_SCALE + STACK_RISE * L.sy + L.stackY,
+        r: ft.r,
+        s: STACK_SCALE,
+      };
+      const tA = easeOut(clamp01((p - TILT_START) / TILT_LEN));
+
+      // B: monte → espaço final (escalonado por card)
+      const tB = easeIO(clamp01((p - SPREAD_START - i * SPREAD_STAG) / SPREAD_LEN));
+
+      const x = lerp(lerp(a.x, b.x, tA), slot.x, tB);
+      const y = lerp(lerp(a.y, b.y, tA), slot.y, tB);
+      const r = lerp(lerp(a.r, b.r, tA), 0, tB) + SWAY[i % SWAY.length] * Math.sin(Math.PI * tB);
+      const s = lerp(lerp(a.s, b.s, tA), 1, tB);
+
+      card.style.transform =
+        `translate(-50%, -50%) translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) rotate(${r.toFixed(3)}deg) scale(${s.toFixed(4)})`;
+      card.style.setProperty('--dim', (DIM_BASE[i % DIM_BASE.length] * dim).toFixed(3));
+      card.classList.toggle('spread-done', p >= DONE_AT);
+    });
+
+    if (header) {
+      const o = clamp01((p - 0.38) / 0.2);
+      header.style.opacity = o.toFixed(3);
+      header.style.transform = `translateY(${((1 - o) * 24).toFixed(1)}px)`;
+    }
+  }
+
+  // ── Scroll suavizado (equivale ao scrub:1 da Axisform) ───────
+  let target = 0, current = 0, last = performance.now(), enabled = false;
+  let forceFinal = false;
+  let forceFinalTimer = null;
+
+  function snapToFinal() {
+    if (!enabled) return;
+    forceFinal = true;
+    target = current = 1;
+    render(1);
+    clearTimeout(forceFinalTimer);
+    forceFinalTimer = setTimeout(() => {
+      forceFinal = false;
+    }, 1600);
+  }
+
+  // Ao clicar em "Ver Projetos" ou qualquer link abaixo de #trajetoria,
+  // finaliza a animação dos cards antes da tela descer.
+  document.querySelectorAll('a[href="#projetos"], a[href="#habilidades"], a[href="#contato"]').forEach(link => {
+    link.addEventListener('click', () => {
+      snapToFinal();
+    });
+  });
+
+  // Se o usuário rolar manualmente de volta antes do fim do salto, libera o scrub
+  window.addEventListener('wheel', () => {
+    if (forceFinal) {
+      forceFinal = false;
+      clearTimeout(forceFinalTimer);
+    }
+  }, { passive: true });
+
+  function readTarget() {
+    if (REDUCED || forceFinal) return 1;
+    const rect = section.getBoundingClientRect();
+    const dist = section.offsetHeight - sticky.clientHeight;
+    return dist > 0 ? clamp01(-rect.top / dist) : 0;
+  }
+
+  function frame(now) {
+    requestAnimationFrame(frame);
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    if (!enabled) return;
+
+    target = readTarget();
+    const rect = section.getBoundingClientRect();
+
+    // Assim que a seção sair por cima durante o salto, encerra o bloqueio naturalmente
+    if (forceFinal && rect.bottom <= window.innerHeight) {
+      forceFinal = false;
+      clearTimeout(forceFinalTimer);
+    }
+
+    if (forceFinal) {
+      if (current !== 1) { current = 1; render(1); }
+      return;
+    }
+
+    const offscreen = rect.bottom < -100 || rect.top > window.innerHeight + 100;
+
+    if (offscreen) {
+      // fora da tela: já deixa o estado correto, sem animar
+      if (current !== target) { current = target; render(current); }
+      return;
+    }
+    current += (target - current) * (1 - Math.exp(-dt * 9));
+    if (Math.abs(target - current) < 0.0004) current = target;
+    render(current);
+  }
+
+  // ── Liga / desliga (mobile usa pilha vertical estática no CSS) ─
+  function enable() {
+    enabled = true;
+    if (REDUCED) section.style.height = '100vh';
+    measure();
+    cards.forEach((card, i) => {
+      card.style.position = 'absolute';
+      card.style.top      = '50%';
+      card.style.left     = '50%';
+      card.style.zIndex   = String(i + 1);
+    });
+    sizeCards();
+    target = current = readTarget();
+    render(current);
+  }
+
+  function disable() {
+    enabled = false;
+    section.style.height = '';
+    cards.forEach(card => { card.style.cssText = ''; card.classList.remove('spread-done'); });
+    if (header) header.style.cssText = '';
+  }
+
+  function sync() { mqMobile.matches ? disable() : enable(); }
+
+  window.addEventListener('resize', () => {
+    if (!enabled) return;
+    measure();
+    sizeCards();
+    render(current);
+  }, { passive: true });
+
+  if (mqMobile.addEventListener) mqMobile.addEventListener('change', sync);
+  else if (mqMobile.addListener) mqMobile.addListener(sync);
+
+  sync();
+  requestAnimationFrame(frame);
+})();
+
+// ================================================================
+//  CONTACT CARD — MAGNETIC 3D TILT & COPY EMAIL
+// ================================================================
+(function () {
+  const card = document.getElementById('contact-card');
+  const copyBtn = document.getElementById('copy-email-btn');
+  const toast = document.getElementById('copy-email-toast');
+  const EMAIL = 'bisantanna23@gmail.com';
+
+  // ── Copy email with toast feedback ────────────────────────────
+  if (copyBtn && toast) {
+    let toastTimer = null;
+
+    function showCopiedToast() {
+      toast.classList.add('is-visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('is-visible');
+      }, 2600);
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (_) {}
+      document.body.removeChild(ta);
+    }
+
+    copyBtn.addEventListener('click', () => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(EMAIL).then(showCopiedToast).catch(() => {
+          fallbackCopy(EMAIL);
+          showCopiedToast();
+        });
+      } else {
+        fallbackCopy(EMAIL);
+        showCopiedToast();
+      }
+    });
+  }
+
+  // ── Magnetic 3D Tilt (pointer devices + motion allowed) ───────
+  if (!card) return;
+
+  const canTilt =
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!canTilt) return;
+
+  const MAX_TILT = 2.6;
+  let targetRx = 0, targetRy = 0;
+  let currentRx = 0, currentRy = 0;
+  let targetMx = 50, targetMy = 50;
+  let currentMx = 50, currentMy = 50;
+  let isHovered = false;
+  let rafId = null;
+  let lastTime = 0;
+
+  function startLoop() {
+    if (rafId !== null) return;
+    lastTime = performance.now();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    const dt = Math.min(0.05, (now - lastTime) / 1000) || 0.016;
+    lastTime = now;
+
+    // Frame-rate independent exponential smoothing for organic inertia
+    const factor = 1 - Math.exp(-dt * 8.5);
+
+    currentRx += (targetRx - currentRx) * factor;
+    currentRy += (targetRy - currentRy) * factor;
+    currentMx += (targetMx - currentMx) * factor;
+    currentMy += (targetMy - currentMy) * factor;
+
+    card.style.transform =
+      `perspective(1100px) rotateX(${currentRx.toFixed(3)}deg) rotateY(${currentRy.toFixed(3)}deg)`;
+    card.style.setProperty('--mx', `${currentMx.toFixed(2)}%`);
+    card.style.setProperty('--my', `${currentMy.toFixed(2)}%`);
+
+    const settled =
+      !isHovered &&
+      Math.abs(targetRx - currentRx) < 0.004 &&
+      Math.abs(targetRy - currentRy) < 0.004;
+
+    if (settled) {
+      currentRx = 0;
+      currentRy = 0;
+      card.style.transform = '';
+      rafId = null;
+    } else {
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  card.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'touch') return;
+    const rect = card.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+
+    const px = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    const py = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+    const nx = px * 2 - 1;
+    const ny = py * 2 - 1;
+
+    // Tilts gently toward the cursor direction without sinking
+    targetRy = nx * MAX_TILT;
+    targetRx = -ny * MAX_TILT;
+    targetMx = px * 100;
+    targetMy = py * 100;
+
+    if (!isHovered) {
+      isHovered = true;
+      card.style.setProperty('--glow', '1');
+    }
+    startLoop();
+  }, { passive: true });
+
+  card.addEventListener('pointerleave', () => {
+    isHovered = false;
+    targetRx = 0;
+    targetRy = 0;
+    card.style.setProperty('--glow', '0');
+    startLoop();
+  }, { passive: true });
+})();
+
+// ================================================================
+//  STAT ITEMS — MAGNETIC 3D TILT (Sobre section)
+// ================================================================
+(function () {
+  const canTilt =
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!canTilt) return;
+
+  const MAX_TILT_X = 2.5;   // vertical tilt (pitch)
+  const MAX_TILT_Y = 1.8;   // horizontal tilt (yaw)
+
+  document.querySelectorAll('.stat-item').forEach(card => {
+    let targetRx = 0, targetRy = 0;
+    let currentRx = 0, currentRy = 0;
+    let targetMx = 50, targetMy = 50;
+    let currentMx = 50, currentMy = 50;
+    let isHovered = false;
+    let rafId = null;
+    let lastTime = 0;
+
+    function startLoop() {
+      if (rafId !== null) return;
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function tick(now) {
+      const dt = Math.min(0.05, (now - lastTime) / 1000) || 0.016;
+      lastTime = now;
+      const factor = 1 - Math.exp(-dt * 7);   // gentle inertia
+
+      currentRx += (targetRx - currentRx) * factor;
+      currentRy += (targetRy - currentRy) * factor;
+      currentMx += (targetMx - currentMx) * factor;
+      currentMy += (targetMy - currentMy) * factor;
+
+      card.style.transform =
+        `perspective(1100px) rotateX(${currentRx.toFixed(3)}deg) rotateY(${currentRy.toFixed(3)}deg)`;
+      card.style.setProperty('--smx', `${currentMx.toFixed(2)}%`);
+      card.style.setProperty('--smy', `${currentMy.toFixed(2)}%`);
+
+      const settled =
+        !isHovered &&
+        Math.abs(targetRx - currentRx) < 0.004 &&
+        Math.abs(targetRy - currentRy) < 0.004;
+
+      if (settled) {
+        currentRx = 0; currentRy = 0;
+        card.style.transform = '';
+        rafId = null;
+      } else {
+        rafId = requestAnimationFrame(tick);
+      }
+    }
+
+    card.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      const rect = card.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const px = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const py = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+      targetRy =  (px * 2 - 1) * MAX_TILT_Y;
+      targetRx = -(py * 2 - 1) * MAX_TILT_X;
+      targetMx = px * 100;
+      targetMy = py * 100;
+      if (!isHovered) {
+        isHovered = true;
+        card.style.setProperty('--sg', '1');
+      }
+      startLoop();
+    }, { passive: true });
+
+    card.addEventListener('pointerleave', () => {
+      isHovered = false;
+      targetRx = 0; targetRy = 0;
+      card.style.setProperty('--sg', '0');
+      startLoop();
+    }, { passive: true });
+  });
+})();
+
+</script>
+</body>
+</html>

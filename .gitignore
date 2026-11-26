@@ -1,0 +1,7 @@
+﻿*.mov
+*.zip
+node_modules/
+.DS_Store
+Thumbs.db
+v1.html
+v2.html
